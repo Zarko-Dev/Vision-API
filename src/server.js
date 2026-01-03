@@ -7,10 +7,20 @@ import swaggerJsdoc from 'swagger-jsdoc';
 
 import userRoutes from './routes/user.routes.js';
 import authRoutes from './routes/auth.routes.js';
+import nodeRoutes from './routes/node.routes.js';
 
 dotenv.config();
 
 const app = express();
+// ... (CORS config) ...
+app.use(express.json());
+
+// ... (Swagger config) ...
+
+// Rotas
+app.use('/users', userRoutes);
+app.use('/auth', authRoutes);
+app.use('/nodes', nodeRoutes);
 
 const whitelist = [
     'http://localhost:3000',
