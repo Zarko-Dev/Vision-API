@@ -1,6 +1,6 @@
 import express from 'express';
 import NodeController from '../controllers/node.controller.js';
-import AuthMiddleware from '../middlewares/auth.middleware.js'; // Opcional: Proteger rotas
+import { authMiddleware } from '../middlewares/auth.middleware.js'; // Opcional: Proteger rotas
 
 const router = express.Router();
 
