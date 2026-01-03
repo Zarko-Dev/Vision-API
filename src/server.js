@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
 import { z } from 'zod';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
@@ -10,6 +11,26 @@ import authRoutes from './routes/auth.routes.js';
 dotenv.config();
 
 const app = express();
+
+const whitelist = [
+    'http://localhost:3000',
+    'http://localhost:3001',
+    'https://vision-log-seven.vercel.app', // URL da Vercel
+    'https://vision-log.vercel.app', 
+    process.env.FRONTEND_URL
+].filter(Boolean);
+
+app.use(cors({
+    origin: function (origin, callback) {
+        if (!origin || whitelist.indexOf(origin) !== -1) {
+            callback(null, true)
+        } else {
+            console.warn(`Blocked by CORS: ${origin}`);
+            callback(null, true); // Temporariamente permitindo tudo para debug, mas logando warning. Em prod, usar callback(new Error('Not allowed by CORS'))
+        }
+    },
+    credentials: true
+}));
 
 app.use(express.json());
 
