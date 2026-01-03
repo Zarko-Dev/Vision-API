@@ -1,7 +1,7 @@
 {
-  "name": "erp-backend",
+  "name": "vision-backend",
   "version": "1.0.0",
-  "description": "ERP Backend API",
+  "description": "Vision Backend",
   "main": "src/server.js",
   "type": "module",
   "scripts": {
@@ -9,7 +9,7 @@
     "start": "node src/server.js"
   },
   "keywords": [
-    "erp",
+    "vision",
     "node",
     "express",
     "prisma"
