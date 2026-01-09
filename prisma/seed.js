@@ -44,7 +44,7 @@ async function main() {
     where: { email: 'admin@erp.com' },
     update: {
       passwordHash,
-      roleIds: [adminRole.id], // Atualiza roles
+      roleIds: [adminRole.id], 
     },
     create: {
       name: 'Administrador',

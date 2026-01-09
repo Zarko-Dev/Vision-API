@@ -1,5 +1,5 @@
+import 'dotenv/config';
 import express from 'express';
-import dotenv from 'dotenv';
 import cors from 'cors';
 import { z } from 'zod';
 import swaggerUi from 'swagger-ui-express';
@@ -9,22 +9,19 @@ import userRoutes from './routes/user.routes.js';
 import authRoutes from './routes/auth.routes.js';
 import nodeRoutes from './routes/node.routes.js';
 
-dotenv.config();
+
 
 const app = express();
 // ... (CORS config) ...
-app.use(express.json());
 
 // ... (Swagger config) ...
 
-// Rotas
-app.use('/users', userRoutes);
-app.use('/auth', authRoutes);
-app.use('/nodes', nodeRoutes);
+
 
 const whitelist = [
     'http://localhost:3000',
     'http://localhost:3001',
+    'http://localhost:3002',
     'https://vision-log-seven.vercel.app', // URL da Vercel
     'https://vision-log.vercel.app', 
     process.env.FRONTEND_URL
@@ -55,7 +52,7 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: 'http://localhost:3000',
+        url: 'http://localhost:3001',
         description: 'Servidor Local',
       },
     ],
@@ -76,11 +73,17 @@ const swaggerDocs = swaggerJsdoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // Rotas
+console.log('Registering routes...');
 app.use('/users', userRoutes);
-app.use('/auth', authRoutes);
+app.use('/auth', (req, res, next) => {
+    console.log(`Request to /auth: ${req.method} ${req.path}`);
+    next();
+}, authRoutes);
+app.use('/nodes', nodeRoutes);
 
 // Rota health check
 app.get('/', (req, res) => {
+  console.log('Health check called');
   res.send('ERP API rodando 🚀');
 });
 
@@ -97,7 +100,7 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: 'Erro interno do servidor' });
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`🚀 Servidor rodando na porta ${PORT}`);
 });

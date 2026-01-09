@@ -38,14 +38,13 @@ model Role {
 }
 
 model Node {
-  id        String   @id @map("_id") // Usando String normal para ID personalizado (ex: "headquarters") ou @db.ObjectId se preferir auto
-  label     String
-  type      String   @default("default") // 'input', 'output', 'default', 'parent'
+  id        String   @id @map("_id") 
+  type      String   @default("default") 
   x         Float    @default(0)
   y         Float    @default(0)
-  parentId  String?  // Opcional: Para aninhamento visual
+  parentId  String?  
   
-  status    String   @default("active") // active, inactive, alert
+  status    String   @default("active") 
   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
